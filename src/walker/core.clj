@@ -1,56 +1,8 @@
 (ns walker.core
+  (:require
+   [clojure.edn :as edn])
   (:gen-class))
 
-(def data {:name  "root"
-           :type  :folder
-           :items [{:name  "Отчетность"
-                    :type  :folder
-                    :items [{:name  "По годам"
-                             :type  :folder
-                             :items [{:name  "2021"
-                                      :type  :folder
-                                      :items [{:name "Q1.xls"
-                                               :type :file}
-                                              {:name "Q2.xls"
-                                               :type :file}
-                                              {:name "Q3.xls"
-                                               :type :file}
-                                              {:name "Q4.xls"
-                                               :type :file}]}
-                                     {:name "Бюджет на 2021.xls"
-                                      :type :file}
-                                     {:name  "2020"
-                                      :type  :folder
-                                      :items [{:name "Q1.xls"
-                                               :type :file}
-                                              {:name "Q2.xls"
-                                               :type :file}
-                                              {:name "Q3.xls"
-                                               :type :file}
-                                              {:name "Q4.xls"
-                                               :type :file}]}]}
-                            {:name "Предварительный отчет Q1 2022.xls"
-                             :type :file}]}
-                   {:name "test.txt"
-                    :type :file}
-                   {:name  "Документы"
-                    :type  :folder
-                    :items [{:name "Служебная записка.doc"
-                             :type :file}
-                            {:name  "Бюджеты"
-                             :type  :folder
-                             :items [{:name "2021.xls"
-                                      :type :file}
-                                     {:name  "Промежуточные"
-                                      :type  :folder
-                                      :items [{:name "Q1 2021.xls"
-                                               :type :file}
-                                              {:name "Q2 2021.xls"
-                                               :type :file}]}
-                                     {:name "2022.xls"
-                                      :type :file}]}]}
-                   {:name "temp"
-                    :type :folder}]})
 
 (defn walk
   [root items acc]
@@ -69,10 +21,20 @@
   (walk name items []))
 
 
+(defn read-structure
+  [filename]
+  (->> filename
+       slurp
+       edn/read-string))
+
+
 (comment
-  (m->v data)
+  (->> "resources/structure.edn"
+       read-structure
+       m->v)
 
   )
+
 
 (defn -main
   [& args])
