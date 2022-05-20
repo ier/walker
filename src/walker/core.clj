@@ -28,13 +28,17 @@
        edn/read-string))
 
 
-(comment
-  (->> "resources/structure.edn"
-       read-structure
-       m->v)
-
-  )
+(defn cli-pretty-print [v]
+  (doseq [l v]
+    (prn l)))
 
 
 (defn -main
-  [& args])
+  [& args]
+  (if (seq args)
+    (let [filename (first args)]
+      (->> filename
+           read-structure
+           m->v
+           cli-pretty-print))
+    (prn "Usage: java -jar target/uberjar/walker-0.1.0-SNAPSHOT-standalone.jar resources/structure.edn")))
