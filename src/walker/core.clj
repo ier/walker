@@ -3,7 +3,6 @@
    [clojure.edn :as edn])
   (:gen-class))
 
-
 (defn walk
   [root items acc]
   (reduce
@@ -15,11 +14,9 @@
    acc
    items))
 
-
 (defn m->v
   [{:keys [name items]}]
   (walk name items []))
-
 
 (defn read-structure
   [filename]
@@ -27,11 +24,9 @@
        slurp
        edn/read-string))
 
-
 (defn cli-pretty-print [v]
   (doseq [l v]
     (prn l)))
-
 
 (defn -main
   [& args]
